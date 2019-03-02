@@ -47,7 +47,9 @@ gem 'jquery-rails', '~> 4.3.1'
 # gem 'jquery_mobile_rails', '~> 1.4.5'
 
 # Use Bootstarp 4
-gem 'bootstrap', '~> 4.0.0'
+# gem 'bootstrap', '~> 4.0.0'
+gem "bootstrap", ">= 4.3.1"
+
 # Use rails-controller-testing
 gem 'rails-controller-testing'
 
