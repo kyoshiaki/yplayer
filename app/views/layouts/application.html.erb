@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>yplayer</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
+   </head>
+
+  <body>
+    <%= render 'layouts/header' %>
+
+    <div class="flash">
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
+    </div>
+
+    <div class="container">
+      <div class="jumbotron">
+        <%= yield %>
+      </div>
+    </div>
+
+    <%= debug(params) if Rails.env.development? %>
+  </body>
+</html>

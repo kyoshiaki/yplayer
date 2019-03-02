@@ -1,0 +1,37 @@
+<nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+  <%= link_to "Home", root_path, class: "navbar-brand" %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample" aria-controls="navbarsExample" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample">
+      <ul class="navbar-nav mr-auto">
+        <% if logged_in? %>
+          <li class="nav-item active">
+            <%= link_to "Users", users_path,  class: "nav-link" %>
+          </li>
+        <% end %>
+        <li class="nav-item active dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <% if logged_in? %>
+            <%= current_user.name %>
+          <% else %>
+            <%= t('account') %>
+          <% end %>         
+          </a>
+          <% if logged_in? %>
+          <div class="dropdown-menu" aria-labelledby="dropdown02">
+            <%= link_to t('profile'), current_user, class: "dropdown-item" %>
+            <%= link_to t('settings'), edit_user_path(current_user), class: "dropdown-item" %>
+            <div class="dropdown-divider"></div>
+            <%= link_to t('log_out'), logout_path, method: :delete, class: "dropdown-item" %>
+          </div>
+          <% else %>
+          <div class="dropdown-menu" aria-labelledby="dropdown03">
+            <%= link_to t('log_in'), login_path, class: "dropdown-item" %>
+          </div>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+</nav>

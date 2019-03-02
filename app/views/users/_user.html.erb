@@ -1,0 +1,28 @@
+<% if current_user?(user) then %>
+  <li class="list-group-item list-group-item-success">
+  <%= link_to user.name, user %>
+  </li>
+<% else %>
+  <% if current_user.admin? then %>
+    <% if user.admin? then %>
+      <li class="list-group-item list-group-item-primary">
+        <%= link_to user.name, user %>
+      | <%= link_to t('delete'), user, method: :delete, data: { confirm: t('users.are_you_sure', name: user.name) } %>
+      </li>
+    <% else %>
+      <li class="list-group-item list-group-item-secondary">
+        <%= link_to user.name, user %>
+      | <%= link_to t('delete'), user, method: :delete, data: { confirm: t('users.are_you_sure', name: user.name) } %>
+    <% end %>
+  <% else %>
+    <% if user.admin? then %>
+      <li class="list-group-item list-group-item-primary">
+        <%= link_to user.name, user %>
+      </li>
+    <% else %>
+      <li class="list-group-item list-group-item-secondary">
+        <%= link_to user.name, user %>
+      </li>
+    <% end %>
+  <% end %>
+<% end %>

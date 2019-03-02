@@ -1,0 +1,103 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+ja:
+  account: "アカウント"
+  log_in_success: "ログインに成功しました。"
+  log_in_failure: "ログインできませんでした。"
+  log_out_success: "ログアウトしました。"
+  please_log_in: "ログインしてください。"
+  log_in_permission: "ユーザーに権限がありません。"
+  log_in_administrator: "ユーザーが管理者アカウントではありません。"
+  profile: "プロフィール"
+  settings: "設定"
+  save_changes: "変更内容を保存"
+  all_users: "すべてのユーザー"
+  sounds_table: "Sounds Table"
+  update_account: "アカウント情報の変更"
+  update_sound_info: "サウンド情報を更新"
+  clear_all_messages: "すべてのメッセージを消去"
+  back: "戻る"
+  colon: " :"
+  name: "名前"
+  password: "パスワード"
+  new_password: "パスワード : (Password)"
+  password_confirmation: "確認用パスワード : (password_confirmation)"
+  combination: "無効な名前、パスワードの組み合わせです。"
+  admin: "管理者"
+  digest: "Digest"
+  log_in: "ログイン"
+  log_out: "ログアウト"
+  sign_up: "新規登録"
+  remember: "ログインしたままにする"
+  create_my_account: "アカウントを作成"
+  show: "表示"
+  edit: "編集"
+  destroy: "削除"
+  delete: "削除"
+  back: "戻る"
+  new_user: "新規ユーザー"
+  listing_users: "ユーザー一覧"
+  please_wait: "しばらくお待ちください。"
+  created_at: "作成日"
+  updated_at: "更新日"
+  users:
+    welcome: "ようこそ yplayer へ!"
+    are_you_sure: "ユーザー '%{name}' を削除してよろしいですか?"
+    destroy: "ユーザー '%{name}' を削除しました。"
+    update: "アカウント情報を保存しました。"
+  sounds:
+    path: "絶対パス"
+    name: "ファイル名"
+    listened: "再生済み"
+    playhead: "再生位置"
+    marked: "マーク済み"
+    are_you_sure: "'%{name}' のサウンド情報を削除してよろしいですか?"
+    deleted: "'%{name}' のサウンド情報が削除されました。"
+    update:
+      success: "サウンド情報 '%{playhead}' が保存されました。"
+      failure: "サウンド情報 '%{playhead}' の保存に失敗しました。"
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "&lsaquo; Prev"
+      next: "Next &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No %{entry_name} found"
+          one: "Displaying <b>1</b> %{entry_name}"
+          other: "Displaying <b>all %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"

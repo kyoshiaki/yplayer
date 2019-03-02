@@ -1,0 +1,29 @@
+<%= form_for(@user) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <p>
+    <%= f.label :name, t('name')+t('colon') %>
+    <%= f.text_field :name, class: 'form-control' %>
+    </p>
+
+    <p>
+    <%= f.label :password, t('password')+t('colon') %>
+    <%= f.password_field :password, class: 'form-control' %>
+    </p>
+
+    <p>
+    <%= f.label :password_confirmation, t('password_confirmation')+t('colon') %>
+    <%= f.password_field :password_confirmation, class: 'form-control' %>
+    </p>
+
+		<p>
+    <%= f.label :admin, t('admin')+t('colon') %>
+    <%= f.check_box :admin, class: 'form-control' %>
+    </p>
+
+    <p>
+    <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+    </p>
+<% end %>
+
+

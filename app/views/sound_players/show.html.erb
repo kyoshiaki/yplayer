@@ -1,0 +1,227 @@
+
+<% path = File.join(@dirname, @name) %>
+<% sound = @user.sounds.find_by(path: path) %>
+<% if sound.nil? then %>
+<%  sound = @user.sounds.build(path: path, name: @name, listened: false, playhead: 0) %>
+<% end %>
+
+<div class="name">
+  <%= radio_dir(@dirname) %><br>
+
+  <% begin %>
+  <% length = AudioInfo.new(File.join(@dirname, @name)).length %>
+  <% rescue => e %>
+    <% length = 0 %>
+  <% end %>
+
+  <% if length.nil? then %>
+    <% length = 0 %>
+  <% end %>
+
+  <% h = length/3600 %>
+  <% m = (length%3600)/60 %>
+  <% s = (length%3600)%60 %>
+
+  <%= @name %><br>
+</div>
+
+<% begin %>
+  <% stat = File.stat(path) %>
+<% rescue => e %>
+  <%= "Error: #{e.class}" %>
+  <% stat = File.stat(root_home_path()) %>
+<% end %>
+
+<div>
+  <% begin %>
+    <% birthtime = stat.birthtime %>
+  <% rescue NotImplementedError => e %>
+    <%  birthtime = nil %>
+  <% end %>
+
+  <% if !birthtime.nil? then %>
+  [<%= I18n.l birthtime, format: "%Y/%m/%d(%a), %H:%M:%S" %>]&nbsp;-
+  <% end %>
+  [<%= I18n.l stat.mtime, format: "%Y/%m/%d(%a), %H:%M:%S" %>]
+</div>
+
+<div><%= stat.size %>&nbsp;bytes</div>
+
+<div><%= h %>&nbsp;(h)&nbsp;<%= m %>&nbsp;(m)&nbsp;<%= s %>&nbsp;(s)&nbsp; </div><br>
+
+<%= audio_tag File.join(@dirname.partition("public")[2], @name), id: "player", controls: true %><br>
+
+<div id="start"><%= "#{string_from_second(sound.playhead)} (#{sound.playhead})".html_safe %></div>
+
+<div id="div-slider">
+  <input type="range" name="slider" id="slider" value="<%= sound.playhead %>" min="0" max="<%= length %>" data-highlight="true" class="form-control">
+</div>
+
+<div id="end"><%= "#{string_from_second(length)} (#{length})".html_safe %></div>
+
+<br>
+<div class="widget">
+  <div class="row">
+    <button id="zero" class="btn btn-outline-secondary btn-sm col">0</button>
+    <button id="sub60" class="btn btn-outline-secondary btn-sm col">-60</button>
+    <button id="sub30" class="btn btn-outline-secondary btn-sm col">-30</button>
+    <button id="sub15" class="btn btn-outline-secondary btn-sm col">-15</button><br>
+  </div>
+    <div class="row">
+    <button id="play" class="btn btn-outline-success btn-sm col">Play</button>
+    <button id="pause" class="btn btn-outline-danger btn-sm col">Pause</button><br>
+  </div>
+    <div class="row">
+    <button id="add15" class="btn btn-outline-info btn-sm col">+15</button>
+    <button id="add30" class="btn btn-outline-info btn-sm col">+30</button>
+    <button id="add60" class="btn btn-outline-info btn-sm col">+60</button>
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <button id="playhead" class="btn btn-outline-secondary btn-sm col  col-sm-2">Get</button>
+    <button id="setplayhead" class="btn btn-outline-secondary btn-sm col  col-sm-2">Set</button>
+  </div>
+
+  <%= form_for sound, remote: true do |f| %>
+    <div class="row">
+      <%= f.label :playhead, t('sounds.playhead'), class: "col col-sm-2 mt-1"%>
+      <%= f.number_field :playhead, class: "form-control col col-sm-2" %>
+    </div>
+
+    <div class="row">
+      <%= f.label :mraked, t('sounds.marked'), class: "col col-sm-2"%>
+      <%= f.check_box :marked, class: "col col-sm-2 mt-2"%>
+    </div>
+
+    <div class="row">
+        <%= f.label :listened, t('sounds.listened'), class: "col col-sm-2"%>
+        <%= f.check_box :listened, class: "col col-sm-2 mt-2"%>
+    </div>
+
+    <div class="row">
+      <%= f.submit t('update_sound_info'), class: "btn btn-primary btn-sm col-sm-4" %>
+    </div>
+  <% end %>
+
+  <br>
+  <div class="row">
+	  <button id="clear" class="btn btn-outline-secondary btn-sm col-sm-4"><%= t('clear_all_messages') %></button>
+  </div>
+
+	<br>
+	<%= link_to t('back'), name: @name, dirname: @dirname, controller: 'directories', action: 'show' %>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+     $( ".widget .row button #play, .widget .row button #pause, .widget .row button #sub15, .widget .row button #sub30, .widget .row button #sub60, .widget .row button #add15, .widget .row button #add30, .widget .row button #add60, .widget .row button #zero, .row button #playhead, .row button #setplayhead, .row button #clear" ).button();
+
+     $( "#play" ).click( function( event ) {
+       $("#player")[0].play();
+
+//       remove_alert();
+
+       var id = setInterval(function() {
+         var loc;
+         loc = Math.floor($('#player')[0].currentTime);
+         $("#start").text(stringFromSecond(loc)+" ("+loc+")");
+         $("#slider").val(loc);
+
+//         console.log(loc);
+         if ($("#player")[0].paused) {
+           clearInterval(id);
+         }
+       }, 1000);
+     } );
+    
+    <% if browser.firefox? && !browser.platform.ios?%>
+      $('#player')[0].currentTime = <%= sound.playhead %>;
+    <% elsif browser.chrome? && !browser.platform.ios? %>
+      $('#player')[0].currentTime = <%= sound.playhead %>;
+    <% elsif browser.firefox? && browser.platform.linux? %>
+      $('#player')[0].currentTime = <%= sound.playhead %>;  
+    <% elsif browser.safari? || browser.platform.ios? %>
+      $('audio').on('canplay', function(event) {
+        event.target.currentTime = <%= sound.playhead %>;
+      });
+    <% elsif browser.edge? || browser.ie? %>
+      $('#player')[0].currentTime = <%= sound.playhead %>;
+    <% else %>
+      $('#player')[0].currentTime = <%= sound.playhead %>;
+    <% end %>
+
+    $( "#pause" ).click( function( event ) {
+      $("#player")[0].pause();
+//      remove_alert();
+//  		$("#sound_playhead").val(Math.floor($('#player')[0].currentTime));
+     } );
+
+     $( "#sub15" ).click( function( event ) {
+       loc = forwardMusic("#player", -15, <%= length %>)
+       $("#slider").val(loc);
+//			 remove_alert();
+			 } );
+
+     $( "#sub30" ).click( function( event ) {
+      loc = forwardMusic("#player", -30, <%= length %>)
+      $("#slider").val(loc);
+//      remove_alert();
+    } );
+
+    $( "#sub60" ).click( function( event ) {
+      loc = forwardMusic("#player", -60, <%= length %>)
+      $("#slider").val(loc);
+//      remove_alert();
+    } );
+
+     $( "#add15" ).click( function( event ) {
+       loc = forwardMusic("#player", 15, <%= length %>)
+       $("#slider").val(loc);
+//			 remove_alert();
+			 } );
+
+     $( "#add30" ).click( function( event ) {
+       loc = forwardMusic("#player", 30, <%= length %>)
+       $("#slider").val(loc);
+//			 remove_alert();
+			 } );
+
+     $( "#add60" ).click( function( event ) {
+       loc = forwardMusic("#player", 60, <%= length %>)
+       $("#slider").val(loc);
+//			 remove_alert();
+			 } );
+
+     $( "#zero" ).click( function( event ) {
+       $('#player')[0].currentTime = 0;
+       $("#slider").val(loc);
+//			 remove_alert();
+     } );
+
+     $("#div-slider").change(function() {
+       var value = $("#slider").val();
+//			 remove_alert();
+
+       $("#start").text(stringFromSecond(value)+" ("+value+")");
+       $('#player')[0].currentTime = value;
+     });
+
+		$( "#playhead" ).click( function( event ) {
+//      remove_alert();
+      $("#sound_playhead").val(Math.floor($('#player')[0].currentTime));
+    } );
+
+    $( "#setplayhead" ).click( function( event ) {
+//      remove_alert();
+      $('#player')[0].currentTime = $("#sound_playhead").val();
+    } );
+
+		$( "#clear" ).click( function( event ) {
+			remove_alert();
+		} );
+			
+   });
+</script>

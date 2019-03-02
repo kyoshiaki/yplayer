@@ -1,0 +1,15 @@
+<% provide(:title, 'All users') %>
+
+<h3><%= t('all_users') %></h3>
+
+<p>
+<%= paginate @users %>
+</p>
+
+<ul class="list-group">
+	<%= render @users %>
+</ul>
+
+<p>
+<%= paginate @users %>
+</p>

@@ -1,0 +1,63 @@
+
+<% begin %>
+  <% len = AudioInfo.new(sound.path).length %>
+<% rescue %>
+  <% len = 0 %>
+<% end %>
+
+<% len1 = sound.playhead %>
+
+<% h1 = len1/3600 %>
+<% m1 = (len1%3600)/60 %>
+<% s1 = (len1%3600)%60 %>
+
+<% if sound.listened then %>
+	<% if len1 >= len %>
+		<li class="list-group-item list-group-item-dark">
+	<% else %>
+		<li class="list-group-item list-group-item-secondary">
+	<% end %>
+<% elsif sound.marked then %>
+	<li class="list-group-item list-group-item-warning">
+<% elsif sound.playhead == 0 then %>
+	<li class="list-group-item list-group-item-danger">
+<% else %>
+	<li class="list-group-item list-group-item-primary">
+<% end %>
+
+	<p class="user"><%= link_to sound.user.name, sound.user %></p>
+
+	<%= t('sounds.path') %> :
+	<%= radio_dirname(sound.path) %>
+	<br>
+
+	<%= t('sounds.name')+t('colon') %>
+	<%= link_to sound.name, dirname: File.dirname(sound.path), name: sound.name, controller: 'sound_players', action: 'show' %>
+	<br>
+
+	<%= t('sounds.marked')+t('colon') %>
+	<%= check_box_tag 'marked', "1", sound.marked, disabled: true %>
+	<br>
+
+	<%= t('sounds.listened')+t('colon') %>
+	<%= check_box_tag 'listened', "1", sound.listened, disabled: true %>
+	<br>
+
+	<%= t('sounds.playhead')+t('colon') %>
+	<%= sound.playhead %>
+	<br>
+
+	<%= t('created_at')+t('colon') %>
+	<%= I18n.l sound.created_at, format: "%Y/%m/%d(%a), %H:%M:%S" %> 
+	<br>
+
+	<%= t('updated_at')+t('colon') %>
+	<%= I18n.l sound.updated_at, format: "%Y/%m/%d(%a), %H:%M:%S" %> 
+	<br>
+	
+	<p>
+		<% if current_user?(sound.user) %>
+		<%= link_to t('delete'), sound, method: :delete, data: { confirm: t('sounds.are_you_sure', name: sound.name) } %>
+		<% end %>
+	</p>
+</li>

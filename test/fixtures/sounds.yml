@@ -1,0 +1,77 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+orange:
+  path: Sample3/sample3.mp3
+  name: sample3.mp3
+  listened: false
+  playhead: 1
+  user: michael
+  created_at: <%= 10.minutes.ago %>
+  
+tau_manifesto:
+  path: Sample1/sample1.mp3
+  name: sample1.mp3
+  listened: false
+  playhead: 1
+  user: michael
+  created_at: <%= 3.years.ago %>
+  
+cat_video:
+  path: Sample2/sample2.mp3
+  name: sample2.mp3
+  listened: false
+  playhead: 1
+  created_at: <%= 2.hours.ago %>
+  user: michael
+  
+most_recent:
+  path: Sample4/sample4.mp3
+  name: sample4.mp3
+  listened: false
+  playhead: 1
+  created_at: <%= Time.zone.now %>
+  user: michael
+
+<% 30.times do |n| %>
+<%  path = Faker::File.file_name(nil,nil,'mp3') %>
+<%  name = File.basename(path) %>
+sound_<%= n %>:
+  path: <%= path %>
+  name: <%= name %>
+  listened: <%= (n % 2) == 0 ? true : false %>
+  playhead: <%= rand(100) %>
+  created_at: <%= 42.days.ago %>
+  user: michael
+<% end %>
+
+ants:
+  path: Sample5/sample5.mp3
+  name: sample5.mp3
+  listened: false
+  playhead: 1
+  created_at: <%= 2.years.ago %>
+  user: archer
+
+zone:
+  path: Sample6/sample6.mp3
+  name: sample6.mp3
+  listened: false
+  playhead: 1
+  created_at: <%= 3.days.ago %>
+  user: archer
+
+tone:
+  path: Sample7/sample7.mp3
+  name: sample7.mp3
+  listened: false
+  playhead: 1
+  created_at: <%= 10.minutes.ago %>
+  user: lana
+
+van:
+  path: Sample8/sample8.mp3
+  name: sample8.mp3
+  listened: false
+  playhead: 1
+  created_at: <%= 4.hours.ago %>
+  user: lana

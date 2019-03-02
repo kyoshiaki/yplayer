@@ -1,0 +1,13 @@
+<% provide(:button_text, 'Create my sound') %>
+
+<div><%= radio_dir(@dirname) %></div>
+
+<p>
+<%= paginate @paginatable_items %>
+</p>
+
+<%= render 'audio' %>
+
+<p>
+<%= paginate @paginatable_items %>
+</p>

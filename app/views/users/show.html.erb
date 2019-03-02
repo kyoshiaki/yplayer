@@ -1,0 +1,23 @@
+<% provide(:title, @user.name) %>
+<p>
+<%= t('name')+t('colon') %>
+<%= @user.name %>
+</p>
+
+<p>
+<%= t('admin')+t('colon') %>
+<%= check_box_tag 'admin', "1", @user.admin, disabled: true %>
+</p>
+
+<% if @user.sounds.any? %>
+  <h3><%= t('sounds_table') %>(<%= @user.sounds.count %>)</h3>
+  <%= paginate @sounds %>
+  <ul class="list-group">
+    <%= render @sounds %>
+  </ul>
+  <p>
+  <%= paginate @sounds %>
+  </p>
+<% end %>
+
+

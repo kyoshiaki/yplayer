@@ -1,0 +1,103 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  account: "Account"
+  log_in_success: "You have successfully signed in."
+  log_in_failure: "You could not sign in."
+  log_out_success: "You have successfully signed out."
+  please_log_in: "Please sign in."
+  log_in_permission: "User does not have permission."
+  log_in_administrator: "User is not an administrator account."
+  profile: "Profile"
+  settings: "Settings"
+  save_changes: "Save changes"
+  all_users: "All Users"
+  sounds_table: "Sounds Table"
+  update_account: "Update your account"
+  update_sound_info: "Update sound info"
+  clear_all_messages: "Clear all messages"
+  back: "Back"
+  colon: " :"
+  name: "Name"
+  password: "Password"
+  new_password: "Password"
+  password_confirmation: "Confirmation Password "
+  combination: "Invalid name/password combination"
+  admin: "Administrator"
+  digest: "Digest"
+  log_in: "Sign in"
+  log_out: "Sign out"
+  sign_up: "Sign up"
+  remember: "Remember me on this computer"
+  create_my_account: "Create my account"
+  show: "Show"
+  edit: "Edit"
+  destroy: "Destory"
+  delete: "Delete"
+  back: "Back"
+  new_user: "New user"
+  listing_users: "Listing users"
+  please_wait: "Please wait."
+  created_at: "Created time"
+  updated_at: "Updated time"
+  users:
+    welcome: "Welcome to the yplayer!"
+    are_you_sure: "Are you sure you want to delete the user '%{name}'?"
+    destroy: "Deleted '%{name}'"
+    update: "Profile updated"
+  sounds:
+    path: "Path"
+    name: "Name"
+    listened: "Listened"
+    playhead: "Playhead"
+    marked: "Marked"
+    are_you_sure: "Are you sure you want to delete the sound information of '%{name}'?"
+    deleted: "The sound information of '%{name}' was deleted."
+    update:
+      success: "The sound information '%{playhead}' has been updated."
+      failure: "Failed to update the sound information '%{playhead}'!"
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "&lsaquo; Prev"
+      next: "Next &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No %{entry_name} found"
+          one: "Displaying <b>1</b> %{entry_name}"
+          other: "Displaying <b>all %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"

@@ -1,0 +1,105 @@
+<ul class="list-group">
+<% @paginatable_items.each_with_index do |item, i| %>
+
+  <% name = item[:name] %>
+  <% isDirectory = item[:isDirectory] %>
+  <% isSound = item[:isSound] %>
+  <% path = File.join(@dirname, name) %>
+
+  <% stat_error_msg = nil %>
+  <% begin %>
+    <% stat = File.stat(path) %>
+  <% rescue => e %>
+    <% stat_error_msg = "Error: #{e.class}" %>
+    <% stat = File.stat(root_home_path()) %>
+  <% end %>
+
+  <% if isDirectory then %>
+    <% if name == ".." then %>
+      <li class="list-group-item list-group-item-info">
+        <div class="name">
+          <%= link_to name, name: name, dirname: File.dirname(@dirname), action: 'show' %>
+        </div>
+        <div>[<%= I18n.l stat.mtime, format: "%Y/%m/%d(%a), %H:%M:%S" %>]</div>
+      </li>
+    <% elsif name == "." then %>
+      <li class="list-group-item list-group-item-info">
+        <div class="name">
+          <%= link_to name, name: name, dirname: @dirname, action: 'show' %>    
+        </div>
+        <div>[<%= I18n.l stat.mtime, format: "%Y/%m/%d(%a), %H:%M:%S" %>]</div>
+      </li>
+    <% else %>
+      <li class="list-group-item list-group-item-success">
+        <div class="name">
+          <%= link_to name, name: name, dirname: path, action: 'show' %>
+        </div>
+        <div>[<%= I18n.l stat.mtime, format: "%Y/%m/%d(%a), %H:%M:%S" %>]</div>
+      </li>
+    <% end %>
+  <% elsif isSound then %>
+    <% begin %>
+      <% len = AudioInfo.new(path).length %>
+    <% rescue => e %>
+      <% len = 0 %>
+    <% end %>
+
+    <% if len.nil? then %>
+      <% len = 0 %>
+    <% end %>
+
+    <% h = len/3600 %>
+    <% m = (len%3600)/60 %>
+    <% s = (len%3600)%60 %>
+
+    <% sound = @user.sounds.find_by(path: path) %>
+
+    <% if sound.nil? then %>
+      <% sound = @user.sounds.build(path: path, name: name, listened: false,  marked: false, playhead: 0) %>
+      <% sound.save %>
+    <% end %>
+    
+    <% len1 = sound.playhead %>
+
+    <% h1 = len1/3600 %>
+    <% m1 = (len1%3600)/60 %>
+    <% s1 = (len1%3600)%60 %>
+
+    <% if sound.listened then %>
+      <% if len1 >= len %>
+        <li class="list-group-item list-group-item-dark">
+      <% else %>
+        <li class="list-group-item list-group-item-secondary">
+      <% end %>
+    <% elsif sound.marked then %>
+      <li class="list-group-item list-group-item-warning">
+    <% elsif sound.playhead == 0 then %>
+      <li class="list-group-item list-group-item-danger">
+    <% else %>
+      <li class="list-group-item list-group-item-primary">
+    <% end %>
+
+    <div class="name">
+      <%= link_to name, dirname: @dirname, name: name, controller: 'sound_players', action: 'show' %>
+    </div>
+    <div>[<%= I18n.l stat.mtime, format: "%Y/%m/%d(%a), %H:%M:%S" %>]</div>
+    <div><%= stat.size %>&nbsp;bytes</div>
+      <%= "<div>#{h1}&nbsp;(h)&nbsp;#{m1}&nbsp;(m)&nbsp;#{s1}&nbsp;(s)&nbsp/&nbsp#{h}&nbsp;(h)&nbsp;#{m}&nbsp;(m)&nbsp;#{s}&nbsp;(s)&nbsp;</div>".html_safe %>
+    <%= "<div>#{len1}/#{len}</div>".html_safe %>
+    <div><%= t('sounds.marked')+t('colon') %>&nbsp;<%= check_box_tag 'marked', "1", sound.marked, disabled: true %></div>
+    <div><%= t('sounds.listened')+t('colon') %>&nbsp;<%= check_box_tag 'listened', "1", sound.listened, disabled: true  %></div>
+    </li>
+  <% else %>
+    <li class="list-group-item">
+      <div class="name">
+        <%=  "<div>#{name}</div>".html_safe %>
+      </div>
+      <div>[<%= I18n.l stat.mtime, format: "%Y/%m/%d(%a), %H:%M:%S" %>]</div>
+      <div><%= stat.size %>&nbsp;bytes</div>
+    </li>   
+  <% end %>
+  <% if !stat_error_msg.nil? then %>
+    <div><%= stat_error_msg %></div>
+  <% end %>
+<% end %>
+</ul>
