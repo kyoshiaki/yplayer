@@ -254,7 +254,7 @@ pi@raspberrypi:~ $
 760a21dfc61f8d3d376b2854db951c99c1e248b76c9ec346152017431ab3a9babf1e958709b7827b9f4a67e261e5ce1721b4da3af9db3b6324f924f2809c6fdb
 ```
 
-上記のように [../README.md](../README.md) の 'インストールと yplayer の起動'、'6. 秘密鍵の表示' で表示した秘密鍵を [yplayer-web.service.txt](yplayer-web.service.txt) の "SECRET_KEY_BASE=" に設定する。ダブルクォーテーションで囲む範囲をを間違えないようにしてください。
+上記のように [../README.md](../README.md) の 'インストールと yplayer の起動'、'5. 秘密鍵の表示' で表示した秘密鍵を [yplayer-web.service.txt](yplayer-web.service.txt) の "SECRET_KEY_BASE=" に設定する。ダブルクォーテーションで囲む範囲をを間違えないようにしてください。
 
 ```
 yplayer-web.service.txt
