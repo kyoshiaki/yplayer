@@ -67,7 +67,7 @@ gem 'faker', '~> 1.8.7'
 # gem 'bootstrap-will_paginate', '~> 1.0.0'
 
 # Use Kaminari
-gem 'kaminari', '~> 1.1.1'
+gem 'kaminari', '~> 1.2.1'
 
 # Use ruby-audioinfo
 gem 'ruby-audioinfo', '~> 0.5.2'
